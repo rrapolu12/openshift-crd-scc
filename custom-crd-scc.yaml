@@ -1,0 +1,69 @@
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  name: custom-sccs.security.openshift.io
+spec:
+  group: security.openshift.io
+  version: v1alpha1
+  scope: Namespaced
+  names:
+    plural: custom-sccs
+    singular: custom-scc
+    kind: CustomSCC
+    shortNames:
+    - csc
+  validation:
+    openAPIV3Schema:
+      type: object
+      properties:
+        metadata:
+          type: object
+          properties:
+            name:
+              type: string
+        spec:
+          type: object
+          required:
+          - runAsUser
+          - fsGroup
+          - supplementalGroups
+          properties:
+            runAsUser:
+              type: object
+              properties:
+                type:
+                  type: string
+                uid:
+                  type: string
+            fsGroup:
+              type: object
+              properties:
+                type:
+                  type: string
+                rule:
+                  type: string
+            supplementalGroups:
+              type: object
+              properties:
+                type:
+                  type: string
+                ranges:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      min:
+                        type: integer
+                      max:
+                        type: integer
+            seLinuxContext:
+              type: object
+              properties:
+                type:
+                  type: string
+                level:
+                  type: string
+            volumes:
+              type: array
+              items:
+                type: string
